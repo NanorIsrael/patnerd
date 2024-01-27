@@ -8,8 +8,8 @@
     "exec": "node deploy/app.js",
     "start-dev": "webpack-dev-server --open",
     "build": "tsc -p tsconfig.build.json",
-	"test": "jest --config=jest.config.js",
-	"lint": "npx eslint \"src/**\" \"__tests__/**\"",
+	  "test": "jest --config=jest.config.js",
+	  "lint": "npx eslint \"src/**\" \"__tests__/**\"",
     "lint-fix": "npx eslint \"src/**\" \"__tests__/**\" --fix",
     "postbuild": "echo \"moving node_modules to deploy\" && cp -r node_modules deploy"
   },
