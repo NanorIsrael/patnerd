@@ -4,8 +4,8 @@
   "description": "myapp API",
   "main": "index.js",
   "scripts": {
-	"start": "make app-start",
-	"exec": "node deploy/index.js",
+    "start": "make app-start",
+    "exec": "node deploy/app.js",
     "start-dev": "webpack-dev-server --open",
     "build": "tsc -p tsconfig.build.json",
     "test": "jest"
@@ -32,5 +32,8 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "winston": "^3.11.0"
   }
 }

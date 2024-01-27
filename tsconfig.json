@@ -1,13 +1,12 @@
-
 {
 	"compilerOptions": {
-	  "outDir": "./deploy/",
+	  "outDir": "./deploy",
+	  "module": "CommonJS",
+	  "target": "ES2017",
 	  "sourceMap": true,
 	  "noImplicitAny": true,
-	  "module": "es6",
-	  "target": "es5",
-	  "allowJs": true,
-	  "moduleResolution": "node",
-		  "skipLibCheck": true
+	  "preserveConstEnums": true,
+	  "allowSyntheticDefaultImports": true,
+	  "strictNullChecks": true
 	}
 }
