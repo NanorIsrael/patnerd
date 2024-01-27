@@ -4,7 +4,7 @@ module.exports =  {
 	  'plugin:@typescript-eslint/recommended',  // Uses the recommended rules from @typescript-eslint/eslint-plugin
 	],
 	parserOptions:  {
-	  ecmaVersion:  2018,
+	  ecmaVersion:  'latest',
 	  sourceType:  'module',
 	},
 	rules:  {
