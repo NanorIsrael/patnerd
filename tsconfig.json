@@ -7,6 +7,9 @@
 	  "noImplicitAny": true,
 	  "preserveConstEnums": true,
 	  "allowSyntheticDefaultImports": true,
-	  "strictNullChecks": true
+	  "strictNullChecks": true,
+	  "allowJs": true,
+	  "moduleResolution": "node",
+		  "skipLibCheck": true
 	}
 }

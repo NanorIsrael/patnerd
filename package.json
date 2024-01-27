@@ -2,8 +2,8 @@
   "name": "typescript_dependencies",
   "version": "1.0.0",
   "description": "myapp API",
-  "main": "index.js",
   "scripts": {
+	"clean": "rm -rf node_modules",
     "start": "make app-start",
     "exec": "node deploy/app.js",
     "start-dev": "webpack-dev-server --open",
