@@ -1,10 +1,13 @@
 import logger from "./logging/logger";
 
-function main(name?: string) {
+export function main(name?: string) {
+	const message = `hello ${name ? name : 'world'}`;
 	logger.log(
 		'debug',
-		`hello ${name ? name : 'world'}`
-	)
+		message
+	);
+	return {body: message, statusCode: 200};
 }
 
-main()
+
+
