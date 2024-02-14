@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "description": "myapp API",
   "scripts": {
-	"clean": "rm -rf node_modules",
+    "clean": "rm -rf node_modules",
     "start": "make app-start",
     "exec": "node deploy/app.js",
     "start-dev": "webpack-dev-server --open",
     "build": "tsc -p tsconfig.build.json",
-	  "test": "jest --config=jest.config.js",
-	  "lint": "npx eslint \"src/**\" \"__tests__/**\"",
+    "test": "jest --config=jest.config.js",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts)\"",
+    "lint": "npx eslint \"src/**\" \"__tests__/**\"",
     "lint-fix": "npx eslint \"src/**\" \"__tests__/**\" --fix",
-    "postbuild": "echo \"moving node_modules to deploy\" && cp -r node_modules deploy"
+    "postbuild": "echo \"moving node_modules to deploy\" && cp -r node_modules deploy",
+    "ts": "ts-node --project tsconfig.e2e.json"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +39,9 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.2.5",
     "winston": "^3.11.0"
   }
 }
