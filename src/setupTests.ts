@@ -7,6 +7,7 @@ async function truncateTables(datasource: PatnerdDataSource) {
 }
 
 beforeEach(async () => {
+    process.env.BCRYPT_SALT = '10'
     const db = await patnerdDb()
     await db.initialize()
     await truncateTables(db)

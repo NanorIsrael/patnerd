@@ -2,10 +2,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express, { Request, Response } from 'express'
-import path from 'path'
+import morgan from 'morgan'
 import createError from 'http-errors'
+import path from 'path'
 
-import CustomError from './src/libs/ErroHandler'
+import CustomError from './libs/ErroHandler'
+import usersRouter from './routes/user'
 
 // import indexRouter from './routes/'
 const app = express()
@@ -15,13 +17,14 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
 // app.use(logger('dev'));
+app.use(morgan('combined'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')))
 
 // app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/account', usersRouter)
 app.get('/', (req, res) => {
     res.send('Hello you')
 })

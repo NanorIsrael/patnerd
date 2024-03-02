@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs'
 import { DataSource } from 'typeorm'
 
 import logger from '../logging/logger'
@@ -26,11 +26,19 @@ class Accounts {
     }
 
     async findUser(kwags: {
-        [key: string]: string | number
+        [key: string]: string
     }): Promise<AccountsEntity | null | undefined> {
-        return await this.datasource?.manager.findOneBy(AccountsEntity, {
-            [kwags.key]: kwags.value,
-        })
+        const searchParam: string = kwags['email'] || kwags['id']
+
+        if (!searchParam) {
+            throw new Error('Invalid input')
+        }
+
+        const result = await this.datasource?.manager.findOneBy(
+            AccountsEntity,
+            kwags,
+        )
+        return result
     }
 
     async createUser(email: string, password: string): Promise<string> {
@@ -38,7 +46,8 @@ class Accounts {
             throw new Error('email or password required')
         }
 
-		const hashedPassword = await hashPassword(password);
+        const hashedPassword = await hashPassword(password)
+
         const result = await this.datasource
             ?.createQueryBuilder()
             .insert()
@@ -65,15 +74,18 @@ class Accounts {
     }
 }
 
-
 async function hashPassword(password: string): Promise<string> {
+    const saltRounds: number = JSON.parse(process.env.BCRYPT_SALT!) as number
 
-	// Generate a salt
-	const saltRounds = 10;
-	const salt = await bcrypt.genSalt(saltRounds)
+    const saltValue = await bcrypt.genSalt(saltRounds)
+    const hashedPassword = await bcrypt.hash(password, saltValue)
 
-	// Hash the password with 0the generated salt
-	return await bcrypt.hash(password, salt)
+    return hashedPassword
 }
 
+export async function accountHandler(): Promise<Accounts> {
+    const account = new Accounts()
+    await account.initializeDb()
+    return account
+}
 export default Accounts
