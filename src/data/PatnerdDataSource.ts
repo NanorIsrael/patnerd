@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm'
 import logger from '../logging/logger'
+import Accounts from './entities/Accounts'
 
 class PatnerdDatasource {
     datasource: DataSource
@@ -20,7 +21,7 @@ class PatnerdDatasource {
             database,
             logging: false,
 
-            entities: [],
+            entities: [Accounts],
         })
     }
 
@@ -42,7 +43,7 @@ class PatnerdDatasource {
 
 export const patnerdDb = async (): Promise<PatnerdDatasource> => {
     if (process.env.NODE_ENV === 'test') {
-        // unit testing
+        // Unit testing
         return new PatnerdDatasource(
             '127.0.0.1',
             5432,
