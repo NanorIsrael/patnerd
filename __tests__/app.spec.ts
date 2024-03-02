@@ -1,5 +1,3 @@
-// 'use strict';
-import { main } from '../src/app'
 import PatnerdDataSource, { patnerdDb } from '../src/data/PatnerdDataSource'
 
 describe('Tests datasource', function () {
