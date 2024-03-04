@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm'
 import logger from '../logging/logger'
 import PatnerdDatasource, { patnerdDb } from './PatnerdDataSource'
 import TokenEntity from './entities/Tokens'
-
+import { UserTokens } from './dtos/tokens'
 
 class Tokens {
     private db: Promise<PatnerdDatasource>
@@ -22,23 +22,51 @@ class Tokens {
             // Handle initialization errors
             logger.error('Error initializing database:', error)
             throw error // Rethrow error to propagate it
-		}
-	}
+        }
+    }
 
-	async createTokens(sessionId: string, accountId: string): Promise<void> {
-		if (!sessionId || !accountId) {
-            throw new Error('sessionId or accountId required')
+    async findToken(kwags: {
+        [key: string]: string
+    }): Promise<TokenEntity | null | undefined> {
+        const searchParam: string = kwags['account_id'] || kwags['reset_token']
+
+        if (!searchParam) {
+            throw new Error('Invalid token')
         }
 
+        const result = await this.datasource?.manager.findOneBy(
+            TokenEntity,
+            kwags,
+        )
+        return result
+    }
+
+    async deleteToken(kwags: { [key: string]: string }): Promise<void> {
+        const searchParam: string = kwags['account_id'] || kwags['reset_token']
+
+        if (!searchParam) {
+            throw new Error('Invalid token')
+        }
+
+        await this.datasource?.manager.delete(TokenEntity, kwags)
+    }
+
+    async createTokens(accountId: string): Promise<UserTokens> {
+        if (!accountId) {
+            throw new Error('account id required')
+        }
+        const session_id = await this.findToken({ account_id: accountId })
+        if (session_id) {
+            await this.deleteToken({ account_id: accountId })
+        }
 
         const result = await this.datasource
             ?.createQueryBuilder()
             .insert()
             .into(TokenEntity)
-            .returning('id')
+            .returning('session_id')
             .values([
                 {
-                    session_id: sessionId,
                     account_id: accountId,
                 },
             ])
@@ -46,17 +74,16 @@ class Tokens {
 
         if (!result) {
             throw new Error(
-                'Expected find or customer funcion not to return null.',
+                'Expected find or create tokens funcion not to return null.',
             )
         }
-	}
+        return result.identifiers[0] as UserTokens
+    }
 
     async destroy(): Promise<void> {
         await this.datasource?.destroy()
     }
 }
-
-
 
 export async function tokensHandler(): Promise<Tokens> {
     const tokens = new Tokens()

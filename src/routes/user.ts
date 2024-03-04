@@ -1,11 +1,9 @@
 import express from 'express'
-import { body } from 'express-validator'
 
 import Users from '../controllers/users'
 import { validators } from '../middlewares/validators'
 
 const usersRouter = express.Router()
-
 
 usersRouter.post(
     '/',

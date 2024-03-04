@@ -4,10 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
     name: 'user_tokens',
 })
 class TokenEntity {
-    @PrimaryGeneratedColumn({ name: 'id' })
-    id: number
-
-    @Column()
+    @PrimaryGeneratedColumn({ name: 'session_id' })
     session_id: string
 
     @Column({ name: 'reset_token' })

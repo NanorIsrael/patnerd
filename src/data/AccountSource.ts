@@ -53,7 +53,7 @@ class Accounts {
             ?.createQueryBuilder()
             .insert()
             .into(AccountsEntity)
-            .returning('id')
+            .returning('*')
             .values([
                 {
                     email: email,
@@ -67,10 +67,10 @@ class Accounts {
                 'Expected find or create customer funcion not to return null.',
             )
         }
-        return result.identifiers[0] as User
+        return result.raw[0] as User
     }
-   
-	async loginUser(email: string, password: string): Promise<void> {
+
+    async loginUser(email: string, password: string): Promise<void> {
         if (!email || !password) {
             throw new Error('email or password required')
         }
@@ -97,11 +97,10 @@ class Accounts {
         }
     }
 
-	// async createSessionUser(sessionId: string, accountId: string): Promise<void> {
+    // async createSessionUser(sessionId: string, accountId: string): Promise<void> {
     //     if (!sessionId || !accountId) {
     //         throw new Error('sessionId or accountId required')
     //     }
-
 
     //     const result = await this.datasource
     //         ?.createQueryBuilder()
@@ -122,7 +121,6 @@ class Accounts {
     //         )
     //     }
     // }
-    
 
     async destroy(): Promise<void> {
         await this.datasource?.destroy()
