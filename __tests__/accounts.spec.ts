@@ -1,7 +1,8 @@
 // import * as chai from 'chai'
 // import chaiHttp from 'chai-http'
 
-import Accounts from '../src/data/Accounts'
+import Accounts from '../src/data/AccountSource'
+import { User } from '../src/data/dtos/user'
 // import sever from '../src/server'
 
 describe('Tests datasource', function () {
@@ -15,16 +16,26 @@ describe('Tests datasource', function () {
     afterEach(async () => {
         await accounts.destroy()
     })
-    it('pings the database', async () => {
+    it('adds new user to the database', async () => {
         // act
-        const userId = await accounts.createUser(
+        const user: User = await accounts.createUser(
             'nanor@gmail.com',
             'nanor@gmail.com',
         )
         const result = await accounts.findUser({ email: 'nanor@gmail.com' })
         // assert
-        expect(result?.id).toStrictEqual(userId)
+        expect(result?.id).toStrictEqual(user.id)
     })
+    // it('login user', async () => {
+    //     // act
+    //     const user: User = await accounts.createUser(
+    //         'nanor@gmail.com',
+    //         'nanor@gmail.com',
+    //     )
+    //     const result = await accounts.findUser({ email: 'nanor@gmail.com' })
+    //     // assert
+    //     expect(result?.id).toStrictEqual(user.id)
+    // })
 
     // chai.use(chaiHttp)
     // chai.should()

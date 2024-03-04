@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm'
 import logger from '../logging/logger'
 import Accounts from './entities/Accounts'
+import Tokens from './entities/Tokens'
 
 class PatnerdDatasource {
     datasource: DataSource
@@ -21,7 +22,7 @@ class PatnerdDatasource {
             database,
             logging: false,
 
-            entities: [Accounts],
+            entities: [Accounts, Tokens],
         })
     }
 

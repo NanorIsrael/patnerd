@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm'
 import logger from '../logging/logger'
 import AccountsEntity from './entities/Accounts'
 import PatnerdDatasource, { patnerdDb } from './PatnerdDataSource'
+import { User } from './dtos/user'
 
 class Accounts {
     private db: Promise<PatnerdDatasource>
@@ -41,7 +42,7 @@ class Accounts {
         return result
     }
 
-    async createUser(email: string, password: string): Promise<string> {
+    async createUser(email: string, password: string): Promise<User> {
         if (!email || !password) {
             throw new Error('email or password required')
         }
@@ -66,8 +67,62 @@ class Accounts {
                 'Expected find or create customer funcion not to return null.',
             )
         }
-        return result.identifiers[0].id
+        return result.identifiers[0] as User
     }
+   
+	async loginUser(email: string, password: string): Promise<void> {
+        if (!email || !password) {
+            throw new Error('email or password required')
+        }
+
+        const hashedPassword = await hashPassword(password)
+
+        const result = await this.datasource
+            ?.createQueryBuilder()
+            .insert()
+            .into(AccountsEntity)
+            .returning('id')
+            .values([
+                {
+                    email: email,
+                    password: hashedPassword,
+                },
+            ])
+            .execute()
+
+        if (!result) {
+            throw new Error(
+                'Expected find or create customer funcion not to return null.',
+            )
+        }
+    }
+
+	// async createSessionUser(sessionId: string, accountId: string): Promise<void> {
+    //     if (!sessionId || !accountId) {
+    //         throw new Error('sessionId or accountId required')
+    //     }
+
+
+    //     const result = await this.datasource
+    //         ?.createQueryBuilder()
+    //         .insert()
+    //         .into(AccountsEntity)
+    //         .returning('id')
+    //         .values([
+    //             {
+    //                 email: email,
+    //                 password: hashedPassword,
+    //             },
+    //         ])
+    //         .execute()
+
+    //     if (!result) {
+    //         throw new Error(
+    //             'Expected find or create customer funcion not to return null.',
+    //         )
+    //     }
+    // }
+    
 
     async destroy(): Promise<void> {
         await this.datasource?.destroy()

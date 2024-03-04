@@ -24,6 +24,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/chai": "^4.3.12",
     "@types/jest": "^29.5.11",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
     "chai-http": "^4.4.0",
