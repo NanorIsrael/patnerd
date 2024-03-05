@@ -1,10 +1,6 @@
-// import * as chai from 'chai'
-// import chaiHttp from 'chai-http'
-
 import Accounts from '../src/data/AccountSource'
 import Tokens from '../src/data/TokensSource'
 import { User } from '../src/data/dtos/user'
-// import sever from '../src/server'
 
 describe('Tests datasource', function () {
     let accounts: Accounts
@@ -57,17 +53,5 @@ describe('Tests datasource', function () {
         expect(userTokens.session_id).not.toBeNull()
     })
 
-    // chai.use(chaiHttp)
-    // chai.should()
-    // 	it("integration testing", (done) => {
-    // 		chai.request(sever)
-    // 		.post('/account')
-    // 		.send({email: "nanor@gmail.com", password: "nanor@gmail.com"})
-    // 		.end((err, res) => {
-    // 			chai.expect(err).to.be.null;
-    // 			chai.expect(res).to.have.status(200);
-    // 			chai.expect(res.body).to.have.property('message').equal('Success');
-    // 			done();
-    // 		  });
-    // 	})
+
 })
